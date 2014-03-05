@@ -14,7 +14,7 @@
  *
  */
 -->
-<polymer-element name="faster-video" extends="video" attributes="name">
+<polymer-element name="faster-video" attributes="name width height controls">
     <template>
         <style type="text/css">
         :host {
@@ -62,7 +62,7 @@
         }
         </style>
         <div>
-            <video id="video" controls>
+            <video id="video" controls width="{{width}}" height="{{height}}" tabIndex="0">
                 <content></content>
             </video>
         </div>
@@ -169,6 +169,8 @@
 
 
     Polymer('faster-video', {
+        width: '320',
+        height: '240',
         ready: function() {
             var video = this.$.video;
             var control = new tc.videoController(video);
