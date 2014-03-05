@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>&lt;faster-video&gt;</title>
+
+    <!-- Importing Web Component's Polyfill -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.1.4/platform.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.1.4/polymer.js"></script>
+
+    <!-- Importing Custom Elements -->
+    <link rel="import" href="src/faster-video.html">
+</head>
+<body>
+
+<!-- Using Custom Elements -->
+<faster-video controls style="width:640px;height:360px;">
+  <source src="devstories.webm" 
+          type='video/webm;codecs="vp8, vorbis"' />
+</faster-video>
+
+
+</body>
+</html>

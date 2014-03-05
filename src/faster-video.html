@@ -1,0 +1,175 @@
+<!--
+/**
+ * @module faster-video
+ */
+/**
+ * Element for speedreport
+ *
+ * Examples:
+ *
+ * @class faster-video
+ * @blurb A video element with speed controls
+ * @author Addy Osmani
+ * @categories media
+ *
+ */
+-->
+<polymer-element name="faster-video" extends="video" attributes="name">
+    <template>
+        <style type="text/css">
+        .tc-videoHost {
+            position: relative;
+            text-align: center;
+        }
+        .tc-videoController {
+            position: absolute;
+            background: black;
+            color: white;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 10px;
+            line-height: 1.8em;
+            cursor: pointer;
+            z-index: 9999999;
+            opacity: 0.3;
+            font-family: Verdana;
+            font-size: 13px;
+        }
+        .tc-videController button {
+        }
+        .tc-videoController:hover {
+            opacity: 0.7;
+        }
+        .tc-videoController:hover .tc-controls {
+            display: inline;
+        }
+        .tc-controls {
+            display: none;
+            margin-left:1em;
+        }
+        .tc-controls button {
+            color: black !important;
+            background: white !important;
+            font-weight: bold !important;
+            margin: 0 2px !important;
+            border-radius: 5px !important;
+            padding: 3px 8px !important;
+            font-size: 15px !important;
+            line-height: 15px !important;
+        }
+        </style>
+        <div>
+            <video id="video" controls>
+                <content></content>
+            </video>
+        </div>
+    </template>
+    <script>
+    var tc = tc || {};
+    tc.videoController = function(target) {
+        this.video = target;
+        this.initializeControls();
+
+        this.speedIndicator.textContent = this.getSpeed();
+        this.video.addEventListener('ratechange', function(event) {
+            this.speedIndicator.textContent = this.getSpeed();
+        }.bind(this));
+    };
+
+    tc.videoController.prototype.getSpeed = function() {
+        return parseFloat(this.video.playbackRate).toFixed(2);
+    }
+
+    tc.videoController.prototype.remove = function() {
+        this.parentElement.removeChild(this);
+    }
+
+    tc.videoController.prototype.initializeControls = function() {
+        var fragment = document.createDocumentFragment();
+        var container = document.createElement('div');
+        var speedIndicator = document.createElement('span');
+
+        var controls = document.createElement('span');
+        var fasterButton = document.createElement('button');
+        var slowerButton = document.createElement('button');
+        var rewindButton = document.createElement('button');
+
+        rewindButton.innerHTML = '&laquo;';
+        fasterButton.textContent = '+';
+        slowerButton.textContent = '-';
+
+        controls.appendChild(rewindButton);
+        controls.appendChild(slowerButton);
+        controls.appendChild(fasterButton);
+
+        container.appendChild(speedIndicator);
+        container.appendChild(controls);
+
+        container.classList.add('tc-videoController');
+        controls.classList.add('tc-controls');
+
+        fragment.appendChild(container);
+        this.video.parentElement.insertBefore(fragment, this.video);
+        this.video.classList.add('tc-videoHost');
+
+        this.speedIndicator = speedIndicator;
+
+        container.addEventListener('click', function(e) {
+            if (e.target === slowerButton) {
+                runAction('slower')
+            } else if (e.target === fasterButton) {
+                runAction('faster')
+            } else if (e.target === rewindButton) {
+                runAction('rewind')
+            } else {
+                container.nextSibling.classList.add("vc-cancelled")
+                container.remove();
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+        }, true);
+
+        container.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }, true);
+    }
+
+    function runAction(action) {
+        var v = document.getElementById('video');
+        if (!v.paused && !v.classList.contains("vc-cancelled")) {
+            if (action === 'rewind') {
+                v.playbackRate -= 0.20;
+                v.currentTime -= 10;
+            } else if (action === 'faster') {
+                v.playbackRate += 0.10
+            } else if (action === 'slower') {
+                v.playbackRate -= 0.10
+            }
+        }
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode == 65) {
+            runAction('rewind')
+        } // A
+        else if (event.keyCode == 68) {
+            runAction('faster')
+        } // D
+        else if (event.keyCode == 83) {
+            runAction('slower')
+        } // S
+
+        return false;
+    }, true);
+
+
+    Polymer('faster-video', {
+        ready: function() {
+            var video = this.$.video;
+            var control = new tc.videoController(video);
+        }
+    });
+    </script>
+</polymer-element>
