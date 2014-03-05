@@ -6,7 +6,7 @@ A Polymer element for speedreport
 
 ## Demo
 
-> [Check it live](http://webcomponents.github.io/element-boilerplate).
+> [Check it live](http://addyosmani.github.io/faster-video).
 
 ## Usage
 
