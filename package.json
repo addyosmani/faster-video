@@ -1,8 +1,8 @@
 {
     "name": "faster-video",
     "version": "0.0.0",
-    "description": "TODO: Write a project description",
-    "author": "TODO: Write your name",
+    "description": "A Polymer element for videospeed - giving you video playback speed controls",
+    "author": "Addy Osmani",
     "license": "MIT",
     "repository": {
         "type": "git",
