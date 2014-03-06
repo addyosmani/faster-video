@@ -14,11 +14,12 @@
  *
  */
 -->
+<link rel="import" href="../app/bower_components/polymer/polymer.html">
 <polymer-element name="faster-video" attributes="name width height controls">
     <template>
         <style type="text/css">
         :host {
-          display: block;
+          display: inline-block;
         }
         .tc-videoHost {
             position: relative;
@@ -26,28 +27,31 @@
         }
         .tc-videoController {
             position: absolute;
-            background: black;
+            background-color: black;
             color: white;
-            border-radius: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
             padding: 5px;
-            margin: 10px;
+            width: 10em;
+            left: 1.4em;
+            margin-top: 7px;
+            text-align: center;
             line-height: 1.8em;
             cursor: pointer;
             z-index: 9999999;
-            opacity: 0.3;
+            opacity: 0.7; /*0.3*/
             font-family: Verdana;
-            font-size: 13px;
+            font-size: 50px;
+            visibility: visible;
         }
-        .tc-videController button {
-        }
-        .tc-videoController:hover {
-            opacity: 0.7;
-        }
+
         .tc-videoController:hover .tc-controls {
             display: inline;
         }
         .tc-controls {
-            display: none;
+            /*display: none;*/
             margin-left:1em;
         }
         .tc-controls button {
@@ -57,12 +61,16 @@
             margin: 0 2px !important;
             border-radius: 5px !important;
             padding: 3px 8px !important;
-            font-size: 15px !important;
-            line-height: 15px !important;
+            font-size: 50px !important;
+            line-height: 50px !important;
+        }
+
+        .tc-holder {
+          display: inline-block;
         }
         </style>
-        <div>
-            <video id="video" controls width="{{width}}" height="{{height}}" tabIndex="0">
+        <div class="tc-holder">
+            <video id="video" on-tap="{{tap}}" controls width="{{width}}" height="{{height}}" tabIndex="0">
                 <content></content>
             </video>
         </div>
@@ -84,7 +92,7 @@
     }
 
     tc.videoController.prototype.remove = function() {
-        this.parentElement.removeChild(this);
+        this.style.visibility="hidden";
     }
 
     tc.videoController.prototype.initializeControls = function() {
@@ -117,6 +125,8 @@
 
         this.speedIndicator = speedIndicator;
 
+        this.container = container; //?
+
         container.addEventListener('click', function(e) {
             if (e.target === slowerButton) {
                 runAction('slower')
@@ -125,8 +135,9 @@
             } else if (e.target === rewindButton) {
                 runAction('rewind')
             } else {
-                container.nextSibling.classList.add("vc-cancelled")
-                container.remove();
+                //container.nextSibling.classList.add("vc-cancelled")
+                //container.remove();
+                container.style.visibility == "visible"? container.style.visibility = "hidden" : container.style.visibility = "visible"; 
             }
 
             e.preventDefault();
@@ -173,7 +184,10 @@
         height: '240',
         ready: function() {
             var video = this.$.video;
-            var control = new tc.videoController(video);
+            this.control = new tc.videoController(video);
+        },
+        tap: function() {
+          this.control.container.style.visibility == "visible"? this.control.container.style.visibility = "hidden" : this.control.container.style.visibility = "visible";
         }
     });
     </script>
