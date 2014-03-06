@@ -1,0 +1,26 @@
+{
+  "name": "faster-video",
+  "version": "0.0.0",
+  "homepage": "https://github.com/addyosmani/faster-video",
+  "authors": [
+    "Addy Osmani <addyosmani@gmail.com>"
+  ],
+  "description": "A Polymer element for videospeed",
+  "main": "src/faster-video.html",
+  "keywords": [
+    "web-components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "platform": "Polymer/platform#~0.2.0",
+    "polymer": "Polymer/polymer#~0.2.0"
+  }
+}
