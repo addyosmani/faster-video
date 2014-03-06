@@ -5,8 +5,7 @@
     <title>&lt;faster-video&gt;</title>
 
     <!-- Importing Web Component's Polyfill -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.1.4/platform.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.1.4/polymer.js"></script>
+    <script src="app/bower_components/platform/platform.js"></script>
 
     <!-- Importing Custom Elements -->
     <link rel="import" href="src/faster-video.html">
@@ -14,13 +13,25 @@
 <body>
 
 <!-- Using Custom Elements -->
-<h1>&lt;faster-video&gt;</h1>
 <faster-video width="640" height="360">
   <source src="devstories.webm" 
           type='video/webm;codecs="vp8, vorbis"' />
   <source src="devstories.mp4" 
           type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
 </faster-video>
+
+<h1>&lt;faster-video&gt;</h1>
+<small>Tap to toggle hide/show of playback speed controls</small>
+
+<h2>Usage</h2>
+<pre>
+&lt;faster-video width=&quot;640&quot; height=&quot;360&quot;&gt;
+  &lt;source src=&quot;devstories.webm&quot; 
+          type='video/webm;codecs=&quot;vp8, vorbis&quot;' /&gt;
+  &lt;source src=&quot;devstories.mp4&quot; 
+          type='video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;' /&gt;
+&lt;/faster-video&gt;    
+</pre>
 
 </body>
 </html>
