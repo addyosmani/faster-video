@@ -1,6 +1,6 @@
 # &lt;faster-video&gt;
 
-A Polymer element for speedreport
+A Polymer element for Ilya Grigorik's [videospeed](https://github.com/igrigorik/videospeed), adding playback speed controls to `<video>`.
 
 > Maintained by [Addy Osmani](https://github.com/addyosmani).
 
@@ -56,9 +56,9 @@ In order to run it locally you'll need a basic server setup.
 
 Attribute  | Options                   | Default             | Description
 ---        | ---                       | ---                 | ---
-`foo`      | *string*                  | `bar`               | Lorem ipsum
-`bar`      | `abc`, `def`, `ghi`       | `foo`               | Lorem ipsum
-`height`   | *int*                     | `100`               | Lorem ipsum
+`width`      | *integer*                  | `320`               | Video width
+`height`      | *integer*                  | `240`               | Video height
+
 
 ## Contributing
 
