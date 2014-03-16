@@ -2,36 +2,61 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>&lt;faster-video&gt;</title>
+    <title>&lt;smashing-video&gt;</title>
 
     <!-- Importing Web Component's Polyfill -->
     <script src="app/bower_components/platform/platform.js"></script>
-
+<link rel="import" href="app/bower_components/polymer/polymer.html">
     <!-- Importing Custom Elements -->
-    <link rel="import" href="src/faster-video.html">
+    <link rel="import" href="src/smashing-video.html">
+    <style>
+    body {
+      color: #ccc;
+    }
+
+    h1 {
+      color: black;
+    }
+
+    smashing-video #video-controls {
+      display: none;
+    }
+    </style>
 </head>
 <body>
 
 <!-- Using Custom Elements -->
-<faster-video width="640" height="360">
-  <source src="devstories.webm" 
-          type='video/webm;codecs="vp8, vorbis"' />
-  <source src="devstories.mp4" 
-          type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
-</faster-video>
+<h1>&lt;smashing-video&gt;</h1>
+<h3>A theme-friendly &lt;video&gt; tag</h3>
 
-<h1>&lt;faster-video&gt;</h1>
-<small>Tap to toggle hide/show of playback speed controls</small>
+<my-app></my-app>
 
-<h2>Usage</h2>
-<pre>
-&lt;faster-video width=&quot;640&quot; height=&quot;360&quot;&gt;
-  &lt;source src=&quot;devstories.webm&quot; 
-          type='video/webm;codecs=&quot;vp8, vorbis&quot;' /&gt;
-  &lt;source src=&quot;devstories.mp4&quot; 
-          type='video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;' /&gt;
-&lt;/faster-video&gt;    
-</pre>
+<polymer-element name="my-app">
+  <template>
+  <smashing-video width="640" height="360" theme="{{theme}}">
+    <source src="devstories.webm" 
+            type='video/webm;codecs="vp8, vorbis"' />
+    <source src="devstories.mp4" 
+            type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+  </smashing-video>
+  <p>
+  <select name="themes" on-change="{{themesChanged}}">
+      <option value="-1" selected>--</option>
+      <option value="red">red</option> 
+      <option value="blue">blue</option>
+      <option value="green">green</option>
+  </select>
+</p>
+</template>
+<script>
+Polymer('my-app', {
+  themesChanged: function(e){
+    this.theme = e.target.value;
+  }
+})
+</script>
+</polymer-element>
+
 
 </body>
 </html>

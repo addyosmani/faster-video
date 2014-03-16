@@ -1,0 +1,213 @@
+<link rel="import" href="../app/bower_components/polymer/polymer.html">
+<polymer-element name="smashing-video" attributes="name width height controls theme">
+<template>
+    <style type="text/css">
+        :host {
+          display: inline-block;
+      }
+      #video-container {
+        width: 640px;
+        height: 365px;
+        position: relative;
+    }
+
+    #video-controls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 5px;
+        /*opacity: 0;*/
+        -webkit-transition: opacity .3s;
+        -moz-transition: opacity .3s;
+        -o-transition: opacity .3s;
+        -ms-transition: opacity .3s;
+        transition: opacity .3s;
+    }
+
+    button {
+        background: rgba(0,0,0,.5);
+        border: 0;
+        color: #EEE;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -o-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
+
+    #seekbar {
+        width: 360px;
+    }
+
+    #volumebar {
+        width: 60px;
+    }
+
+    #video-controls.green {
+        display: block;
+        background: #b4ddb4;
+        background: -moz-linear-gradient(top,  #b4ddb4 0%, #83c783 17%, #52b152 33%, #008a00 67%, #005700 83%, #002400 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b4ddb4), color-stop(17%,#83c783), color-stop(33%,#52b152), color-stop(67%,#008a00), color-stop(83%,#005700), color-stop(100%,#002400));
+        background: -webkit-linear-gradient(top,  #b4ddb4 0%,#83c783 17%,#52b152 33%,#008a00 67%,#005700 83%,#002400 100%);
+        background: -o-linear-gradient(top,  #b4ddb4 0%,#83c783 17%,#52b152 33%,#008a00 67%,#005700 83%,#002400 100%);
+        background: -ms-linear-gradient(top,  #b4ddb4 0%,#83c783 17%,#52b152 33%,#008a00 67%,#005700 83%,#002400 100%);
+        background: linear-gradient(to bottom,  #b4ddb4 0%,#83c783 17%,#52b152 33%,#008a00 67%,#005700 83%,#002400 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4ddb4', endColorstr='#002400',GradientType=0 );
+
+    }
+
+    #video-controls.blue {
+      display: block;
+      background-image: linear-gradient(bottom, rgb(3,113,168) 13%, rgb(0,136,204) 100%);
+      background-image: -o-linear-gradient(bottom, rgb(3,113,168) 13%, rgb(0,136,204) 100%);
+      background-image: -moz-linear-gradient(bottom, rgb(3,113,168) 13%, rgb(0,136,204) 100%);
+      background-image: -webkit-linear-gradient(bottom, rgb(3,113,168) 13%, rgb(0,136,204) 100%);
+      background-image: -ms-linear-gradient(bottom, rgb(3,113,168) 13%, rgb(0,136,204) 100%);
+
+      background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.13, rgb(3,113,168)),
+        color-stop(1, rgb(0,136,204))
+        );            
+  }
+
+  #video-controls.red {
+    display: block;
+    background: #f85032;
+    background: -moz-linear-gradient(top,  #f85032 0%, #f16f5c 50%, #f6290c 51%, #f02f17 71%, #e73827 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f85032), color-stop(50%,#f16f5c), color-stop(51%,#f6290c), color-stop(71%,#f02f17), color-stop(100%,#e73827));
+    background: -webkit-linear-gradient(top,  #f85032 0%,#f16f5c 50%,#f6290c 51%,#f02f17 71%,#e73827 100%);
+    background: -o-linear-gradient(top,  #f85032 0%,#f16f5c 50%,#f6290c 51%,#f02f17 71%,#e73827 100%);
+    background: -ms-linear-gradient(top,  #f85032 0%,#f16f5c 50%,#f6290c 51%,#f02f17 71%,#e73827 100%);
+    background: linear-gradient(to bottom,  #f85032 0%,#f16f5c 50%,#f6290c 51%,#f02f17 71%,#e73827 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#e73827',GradientType=0 );            
+}
+</style>
+
+<div id="video-container">
+    <!-- Video -->
+    <video id="video" width="{{width}}" height="{{height}}">
+        <content></content>
+    </video>
+    <!-- Video Controls -->
+    <div id="video-controls" class="{{theme}}">
+        <button type="button" id="playpause" class="play">Play</button>
+        <input type="range" id="seekbar" value="0">
+        <button type="button" id="mute">Mute</button>
+        <input type="range" id="volumebar" min="0" max="1" step="0.1" value="1">
+        <button type="button" id="fullscreen">Full-Screen</button>
+    </div>
+</div>
+</template>
+<script>
+
+    Polymer('smashing-video', {
+        width: '320',
+        height: '240',
+        ready: function() {
+            // Video
+            var video = this.$.video;
+
+            // Buttons
+            //var playButton = document.getElementById("play-pause");
+            var playButton = this.$.playpause;
+            var muteButton = this.$.mute;
+            var fullScreenButton = this.$.fullscreen;
+
+            // Sliders
+            var seekBar = this.$.seekbar;
+            var volumeBar = this.$.volumebar;
+
+            // Event listener for the play/pause button
+            playButton.addEventListener("click", function() {
+                if (video.paused == true) {
+                    // Play the video
+                    video.play();
+
+                    // Update the button text to 'Pause'
+                    playButton.innerHTML = "Pause";
+                } else {
+                    // Pause the video
+                    video.pause();
+
+                    // Update the button text to 'Play'
+                    playButton.innerHTML = "Play";
+                }
+            });
+
+
+            // Event listener for the mute button
+            muteButton.addEventListener("click", function() {
+                if (video.muted == false) {
+                    // Mute the video
+                    video.muted = true;
+
+                    // Update the button text
+                    muteButton.innerHTML = "Unmute";
+                } else {
+                    // Unmute the video
+                    video.muted = false;
+
+                    // Update the button text
+                    muteButton.innerHTML = "Mute";
+                }
+            });
+
+
+            // Event listener for the full-screen button
+            fullScreenButton.addEventListener("click", function() {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.mozRequestFullScreen) {
+                    video.mozRequestFullScreen(); // Firefox
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen(); // Chrome and Safari
+                }
+            });
+
+
+            // Event listener for the seek bar
+            seekBar.addEventListener("change", function() {
+                // Calculate the new time
+                var time = video.duration * (seekBar.value / 100);
+
+                // Update the video time
+                video.currentTime = time;
+            });
+
+            
+            // Update the seek bar as the video plays
+            video.addEventListener("timeupdate", function() {
+                // Calculate the slider value
+                var value = (100 / video.duration) * video.currentTime;
+
+                // Update the slider value
+                seekBar.value = value;
+            });
+
+            // Pause the video when the seek handle is being dragged
+            seekBar.addEventListener("mousedown", function() {
+                video.pause();
+            });
+
+            // Play the video when the seek handle is dropped
+            seekBar.addEventListener("mouseup", function() {
+                video.play();
+            });
+
+            // Event listener for the volume bar
+            volumeBar.addEventListener("change", function() {
+                // Update the video volume
+                video.volume = volumeBar.value;
+            });
+
+        }
+    });
+</script>
+</polymer-element>
